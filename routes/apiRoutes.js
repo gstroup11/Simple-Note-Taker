@@ -11,4 +11,17 @@ router.get('/notes', async (req, res) => {
     }
   });
 
+router.post('/notes', (req, res) => {
+    const { title, text } = req.body;
+  
+    try {
+      const newNote = noteStorage.addNote({ title, text });
+      res.status(201).json(newNote);
+    } catch (error) {
+      console.error('Error adding note:', error);
+      res.status(500).json({ error: 'Failed to add note' });
+    }
+  });
+    
+
  module.exports = router;

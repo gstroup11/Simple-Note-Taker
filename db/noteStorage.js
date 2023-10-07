@@ -1,7 +1,7 @@
 const util = require('util');
 const fs = require('fs');
 
-// const uuidv1 = require('uuid/v1');
+const { v1: uuidv1 } = require('uuid');
 
 const readFileAsync = util.promisify(fs.readFile);
 const writeFileAsync = util.promisify(fs.writeFile);
@@ -24,6 +24,28 @@ class noteStorage {
           return [];
         }
       }  
+
+      async addNote(note) {
+        const { title, text } = note;
+      
+        if (!title || !text) {
+          throw new Error("Note 'title' and 'text' cannot be blank");
+        }
+      
+        // Add a unique id to the note using uuid package
+        const newNote = { title, text, id: uuidv1() };
+      
+        try {
+          const notes = await this.getNotes();
+          const updatedNotes = [...notes, newNote];
+          await this.writeDb(updatedNotes);
+          console.log('Note added successfully!');
+          return newNote;
+        } catch (error) {
+          console.error('Error adding note:', error);
+          throw error;
+        }
+      }
 }
 
 module.exports = new noteStorage();
