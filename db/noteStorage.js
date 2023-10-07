@@ -46,6 +46,18 @@ class noteStorage {
           throw error;
         }
       }
+
+      async deleteNote(id) {
+        try {
+          const notes = await this.getNotes();
+          const filteredNotes = notes.filter((note) => note.id !== id);
+          await this.writeDb(filteredNotes);
+          console.log('Note deleted successfully!');
+        } catch (error) {
+          console.error('Error deleting note:', error);
+          throw error;
+        }
+      }
 }
 
 module.exports = new noteStorage();

@@ -22,6 +22,18 @@ router.post('/notes', (req, res) => {
       res.status(500).json({ error: 'Failed to add note' });
     }
   });
-    
+   
+router.delete('/notes/:id', (req, res) => {
+    const { id } = req.params;
+  
+    noteStorage.deleteNote(id)
+      .then(() => {
+        res.sendStatus(204);
+      })
+      .catch((error) => {
+        console.error('Error deleting note:', error);
+        res.status(500).json({ error: 'Failed to delete note' });
+      });
+  });
 
  module.exports = router;
