@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const noteStorage = require('../db/noteStorage');
 
+//GET route to retrieve all notes from the database
 router.get('/notes', async (req, res) => {
     try {
       const notes = await noteStorage.getNotes();
@@ -11,6 +12,7 @@ router.get('/notes', async (req, res) => {
     }
   });
 
+//POST route to add new notes
 router.post('/notes', (req, res) => {
     const { title, text } = req.body;
   
@@ -23,6 +25,7 @@ router.post('/notes', (req, res) => {
     }
   });
    
+//DELETE route to delete a note by its id
 router.delete('/notes/:id', (req, res) => {
     const { id } = req.params;
   
